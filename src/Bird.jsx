@@ -1,10 +1,26 @@
 import { useMemo, useRef, useState } from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, Html, Hud, OrthographicCamera, Center } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import useKeyboard from './useKeyboard'
 import { MathUtils, Vector3 } from 'three'
 
 const GRAVITY = 50
+
+// function Score({ model }) {
+//   const ref = useRef()
+//   useFrame(() => {
+//     let score = Math.floor((model.current.position.x - 2) / 10) + 26
+//     score < 0 && (score = 0)
+//     //ref.current && (ref.current.innerText = score)
+//     document.getElementById('score').innerText = score
+//   })
+
+//   // return (
+//   //   <Html>
+//   //     <div ref={ref} id="score"></div>
+//   //   </Html>
+//   // )
+// }
 
 export default function Bird({ colliders }) {
   const model = useRef()
@@ -81,13 +97,20 @@ export default function Bird({ colliders }) {
           for (let j = 0; j < positions.length; j += 3) {
             const v = new Vector3(positions[j], positions[j + 1], positions[j + 2])
             const globalVertex = v.applyMatrix4(pipeCollider.matrixWorld)
-            if (globalVertex.distanceTo(model.current.position) < 0.8) {
+            if (globalVertex.distanceTo(model.current.position) < 0.75) {
               console.log('collision')
               setCrashed(true)
             }
           }
         }
       }
+
+      model.current.position.y > 20 && setCrashed(true)
+
+      let score = Math.floor((model.current.position.x - 2) / 10) + 26
+      score < 0 && (score = 0)
+      //ref.current && (ref.current.innerText = score)
+      document.getElementById('score').innerText = score
     }
     keyMap['KeyR'] && model.current.position.copy(startPosition) && velocity.set(0, 0, 0) && setCrashed(false)
   })
@@ -123,6 +146,10 @@ export default function Bird({ colliders }) {
           <mesh geometry={nodes.Cube233.geometry} material={materials['Material.007']} castShadow position={[0.05, -0.25, 0]} scale={[0.05, 0.05, 0.13]} />
         </group>
       </group>
+      {/* <Hud>
+        <OrthographicCamera makeDefault />
+        <Score model={model} />
+      </Hud> */}
     </>
   )
 }

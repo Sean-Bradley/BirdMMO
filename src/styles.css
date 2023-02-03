@@ -14,7 +14,13 @@ body,
 }
 #score {
   font-family: '04b_19';
-  font-size: 6em;
+  font-size: 16vh;
+  text-align: center;
   color: white;
-  filter: drop-shadow(1px 1px 2px #000000);
+  text-shadow: -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 4px 4px 0 #000;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 10vw;
+  margin-left: -5vw;
 }

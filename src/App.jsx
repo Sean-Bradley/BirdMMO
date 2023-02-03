@@ -11,6 +11,7 @@ export default function App() {
         {/* <OrbitControls /> */}
         <Stats />
       </Canvas>
+      <span id="score" />
     </>
   )
 }
