@@ -3,10 +3,10 @@ import { useRef, useMemo } from 'react'
 import Bird from './Bird'
 import Pipes from './Pipes'
 import Scenery from './Scenery'
-//import { Debug, Physics } from '@react-three/cannon'
 
 export default function Game() {
   const ref = useRef()
+
   const colliders = useMemo(() => {
     return {}
   }, [])
@@ -22,7 +22,16 @@ export default function Game() {
       <Scenery />
       <Bird colliders={colliders} />
       <Pipes colliders={colliders} />
-      <directionalLight ref={ref} position={[10, 10, 10]} castShadow shadow-mapSize-width={2048} shadow-mapSize-height={2048} shadow-camera-left={-20} shadow-camera-right={40} shadow-camera-top={30} />
+      <directionalLight
+        ref={ref}
+        position={[10, 10, 10]}
+        castShadow
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
+        shadow-camera-left={-20}
+        shadow-camera-right={40}
+        shadow-camera-top={30}
+      />
     </>
   )
 }

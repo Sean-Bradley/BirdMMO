@@ -3,6 +3,7 @@ import { Environment, OrbitControls, Stats } from '@react-three/drei'
 import Game from './Game'
 
 export default function App() {
+
   return (
     <>
       <Canvas shadows>

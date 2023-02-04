@@ -1,26 +1,14 @@
-import { useMemo, useRef, useState } from 'react'
-import { useGLTF, Html, Hud, OrthographicCamera, Center } from '@react-three/drei'
+import { useMemo, useRef, useState, useEffect } from 'react'
+import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import useKeyboard from './useKeyboard'
 import { MathUtils, Vector3 } from 'three'
+import useSocketIO from './useSocketIO'
+import io from 'socket.io-client'
 
 const GRAVITY = 50
 
-// function Score({ model }) {
-//   const ref = useRef()
-//   useFrame(() => {
-//     let score = Math.floor((model.current.position.x - 2) / 10) + 26
-//     score < 0 && (score = 0)
-//     //ref.current && (ref.current.innerText = score)
-//     document.getElementById('score').innerText = score
-//   })
-
-//   // return (
-//   //   <Html>
-//   //     <div ref={ref} id="score"></div>
-//   //   </Html>
-//   // )
-// }
+//let socket
 
 export default function Bird({ colliders }) {
   const model = useRef()
@@ -33,6 +21,8 @@ export default function Bird({ colliders }) {
   const lookAt = useMemo(() => new Vector3(), [])
   const startPosition = useMemo(() => new Vector3(-260, 1, 0), [])
   const [crashed, setCrashed] = useState()
+
+  useSocketIO(model)
 
   useFrame((state, delta) => {
     if (!crashed) {
@@ -60,58 +50,57 @@ export default function Bird({ colliders }) {
             frame[0].current.visible = true
         }
       }
-
       keyMap['Space'] && (velocity.y = 10)
+    }
 
-      let damping = Math.exp(-4 * delta) - 1
-      if (model.current.position.y > 0.65) {
-        velocity.x += delta * 2
-        velocity.y -= GRAVITY * delta
-        damping *= 0.066 // gradual speed up
-      } else {
-        model.current.position.y = 0.65
-        velocity.x = 0
-      }
-      velocity.addScaledVector(velocity, damping)
-      const deltaPosition = velocity.clone().multiplyScalar(delta)
-      model.current.position.add(deltaPosition)
+    let damping = Math.exp(-4 * delta) - 1
+    if (model.current.position.y > 0.65) {
+      velocity.x += delta * 2
+      velocity.y -= GRAVITY * delta
+      damping *= 0.066 // affects speed up
+    } else {
+      model.current.position.y = 0.65
+      velocity.x = 0
+    }
+    velocity.addScaledVector(velocity, damping)
+    const deltaPosition = velocity.clone().multiplyScalar(delta)
+    model.current.position.add(deltaPosition)
 
-      model.current.rotation.z = (velocity.y / 180) * Math.PI * 2
+    model.current.rotation.z = (velocity.y / 180) * Math.PI * 2
 
-      state.camera.position.y = MathUtils.lerp(state.camera.position.y, model.current.position.y, 0.1)
-      state.camera.position.y < 1 && (state.camera.position.y = 1)
-      state.camera.position.x = MathUtils.lerp(state.camera.position.x, model.current.position.x, 0.1)
+    state.camera.position.y = MathUtils.lerp(state.camera.position.y, model.current.position.y, 0.1)
+    state.camera.position.y < 1 && (state.camera.position.y = 1)
+    state.camera.position.x = MathUtils.lerp(state.camera.position.x, model.current.position.x, 0.1)
 
-      //state.camera.position.z = 15 // todo: if mobile portrait mode
+    //state.camera.position.z = 15 // todo: if mobile portrait mode
 
-      lookAt.lerp(model.current.position, 0.1)
-      lookAt.x += 0.1
-      state.camera.lookAt(lookAt)
+    lookAt.lerp(model.current.position, 0.1)
+    lookAt.x += 0.1
+    state.camera.lookAt(lookAt)
 
-      const nextPipeID = Math.floor((model.current.position.x - 5) / 10 + 26) //only checking closest pipe
-      for (let i = 0; i < 2; i++) {
-        if (!crashed && nextPipeID > -1) {
-          const pipeCollider = colliders['collider' + i + '_' + nextPipeID]
-          //pipeCollider.visible = true
-          const positions = pipeCollider.geometry.attributes.position.array
-          for (let j = 0; j < positions.length; j += 3) {
-            const v = new Vector3(positions[j], positions[j + 1], positions[j + 2])
-            const globalVertex = v.applyMatrix4(pipeCollider.matrixWorld)
-            if (globalVertex.distanceTo(model.current.position) < 0.75) {
-              console.log('collision')
-              setCrashed(true)
-            }
+    const nextPipeID = Math.floor((model.current.position.x - 5) / 10 + 26) //only checking nearest pipe
+    for (let i = 0; i < 2; i++) {
+      if (!crashed && nextPipeID > -1) {
+        const pipeCollider = colliders['collider' + i + '_' + nextPipeID]
+        const positions = pipeCollider.geometry.attributes.position.array
+        for (let j = 0; j < positions.length; j += 3) {
+          const v = new Vector3(positions[j], positions[j + 1], positions[j + 2])
+          const globalVertex = v.applyMatrix4(pipeCollider.matrixWorld)
+          if (globalVertex.distanceTo(model.current.position) < 0.75) {
+            //console.log('collision')
+            setCrashed(true)
           }
         }
       }
-
-      model.current.position.y > 20 && setCrashed(true)
-
-      let score = Math.floor((model.current.position.x - 2) / 10) + 26
-      score < 0 && (score = 0)
-      //ref.current && (ref.current.innerText = score)
-      document.getElementById('score').innerText = score
     }
+
+    model.current.position.y > 20 && setCrashed(true)
+
+    let score = Math.floor((model.current.position.x - 2) / 10) + 26
+    score < 0 && (score = 0)
+
+    document.getElementById('score').innerText = score
+
     keyMap['KeyR'] && model.current.position.copy(startPosition) && velocity.set(0, 0, 0) && setCrashed(false)
   })
 
@@ -146,10 +135,6 @@ export default function Bird({ colliders }) {
           <mesh geometry={nodes.Cube233.geometry} material={materials['Material.007']} castShadow position={[0.05, -0.25, 0]} scale={[0.05, 0.05, 0.13]} />
         </group>
       </group>
-      {/* <Hud>
-        <OrthographicCamera makeDefault />
-        <Score model={model} />
-      </Hud> */}
     </>
   )
 }
