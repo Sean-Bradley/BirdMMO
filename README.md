@@ -2,7 +2,7 @@
 
 A Multiplayer Flappy Bird Clone written in React Three Fiber, Threejs and Socket.IO
 
-Play BirdMMO : [https://birdmmo/sbcode.net](https://birdmmo/sbcode.net)
+Play BirdMMO : [https://birdmmo.sbcode.net](https://birdmmo.sbcode.net)
 
 Clone repository locally
 
