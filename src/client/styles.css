@@ -5,6 +5,13 @@ body,
   margin: 0;
   background: #000000;
 }
+#loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -64px;
+  margin-left: -275px;
+}
 @font-face {
   font-family: '04b_19';
   src: url('./fonts/FB.eot');
@@ -21,10 +28,20 @@ body,
   margin-left: -2vw;
   margin-top: -45vh;
 }
-#loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-top: -64px;
-  margin-left: -275px;
+.prompt {
+  font-family: '04b_19';
+  font-size: 6vh;
+  color: white;
+  text-align: left;
+  width: 50vw;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+kbd {
+  font-family: '04b_19';
+  font-size: 6vh;
+  padding: 0px 2px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 4px;
+  background: grey;
+  color: white;
 }

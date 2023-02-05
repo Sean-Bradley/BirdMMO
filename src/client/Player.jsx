@@ -4,9 +4,8 @@ import { useFrame } from '@react-three/fiber'
 import useKeyboard from './useKeyboard'
 import { MathUtils, Vector3 } from 'three'
 import Bird from './Bird'
-import Score from './Score'
+import Overlay from './Overlay'
 import useSocketIO from './useSocketIO'
-
 
 const GRAVITY = 50
 
@@ -18,13 +17,14 @@ export default function Player({ colliders }) {
   const lookAt = useMemo(() => new Vector3(), [])
   const startPosition = useMemo(() => new Vector3(-260, 1, 0), [])
   const [crashed, setCrashed] = useState()
+  const [started, setStarted] = useState()
   const otherPlayers = useRef({})
 
   useSocketIO(model, otherPlayers)
 
   useFrame((state, delta) => {
     if (!crashed) {
-      keyMap['Space'] && (velocity.y = 10)
+      keyMap['Space'] && (velocity.y = 10) && setStarted(true)
     }
 
     let damping = Math.exp(-4 * delta) - 1
@@ -78,7 +78,7 @@ export default function Player({ colliders }) {
       <group ref={model} dispose={null} position={startPosition}>
         <Bird crashed={crashed} />
       </group>
-      <Score model={model} />
+      <Overlay model={model} crashed={crashed} started={started} />
     </>
   )
 }
