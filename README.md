@@ -28,10 +28,12 @@ Build and serve the development version
 npm run dev
 ```
 
+Visit [http://localhost:8080](http://localhost:8080)
+
 Or to build production version
 
 ```bash
 npm run build
 ```
 
-Visit [http://localhost:8080](http://localhost:8080)
+Production client and server files found in `./dist/` folder.
