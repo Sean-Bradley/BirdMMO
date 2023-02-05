@@ -1,18 +1,23 @@
 import { Canvas } from '@react-three/fiber'
 import { Environment, OrbitControls, Stats } from '@react-three/drei'
 import Game from './Game'
+import { Suspense } from 'react'
 
 export default function App() {
-
   return (
     <>
-      <Canvas shadows>
-        <Environment files="./img/rustig_koppie_puresky_1k.hdr" background />
-        <Game />
-        {/* <OrbitControls /> */}
-        <Stats />
-      </Canvas>
-      <span id="score" />
+      <Suspense fallback={<Loading />}>
+        <Canvas shadows>
+          <Stats />
+          <Environment files="./img/rustig_koppie_puresky_1k.hdr" background />
+          <Game />
+          {/* <OrbitControls /> */}
+        </Canvas>
+      </Suspense>
     </>
   )
+}
+
+function Loading() {
+  return <img id="loader" src="./img/BirdMMO.png" />
 }

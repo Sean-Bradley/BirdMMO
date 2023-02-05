@@ -1,15 +1,19 @@
 import { useFrame } from '@react-three/fiber'
 import { useRef, useMemo } from 'react'
-import Bird from './Bird'
+import Player from './Player'
 import Pipes from './Pipes'
 import Scenery from './Scenery'
 
 export default function Game() {
+  //console.log('rendered game jsx')
+
+
   const ref = useRef()
 
-  const colliders = useMemo(() => {
-    return {}
-  }, [])
+  const colliders = {}
+  // useMemo(() => {
+  //   return {}
+  // }, [])
 
   useFrame((state) => {
     ref.current.position.x = state.camera.position.x
@@ -20,7 +24,7 @@ export default function Game() {
   return (
     <>
       <Scenery />
-      <Bird colliders={colliders} />
+      <Player colliders={colliders} />
       <Pipes colliders={colliders} />
       <directionalLight
         ref={ref}
