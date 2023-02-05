@@ -3,7 +3,7 @@ const express = require('express')
 const path = require('path')
 const http = require('http')
 const socket_io = require('socket.io')
-const port = 3003
+const port = 3000
 
 class App {
   constructor(port) {
@@ -11,7 +11,7 @@ class App {
     this.port = port
 
     const app = express()
-    app.use(express.static(path.join(__dirname, '../dist/')))
+    app.use(express.static(path.join(__dirname, '../client/')))
 
     this.server = new http.Server(app)
     this.io = new socket_io.Server(this.server)
