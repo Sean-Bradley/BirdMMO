@@ -20,11 +20,13 @@ export default function Overlay({ model, crashed, started, keyMap }) {
       <Html>
         <div id="score">{score}</div>
       </Html>
+      <Html>
+        <div className="prompt" style={{ display: crashed ? 'block' : 'none' }}>
+          Press <kbd>R</kbd> to re-start
+        </div>
+      </Html>
       {!isMobile ? (
         <Html>
-          <div className="prompt" style={{ display: crashed ? 'block' : 'none' }}>
-            Press <kbd>R</kbd> to re-start
-          </div>
           <div className="prompt" style={{ display: started ? 'none' : 'block' }}>
             Press <kbd>Space</kbd> to Start
           </div>
