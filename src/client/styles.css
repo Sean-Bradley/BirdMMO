@@ -45,3 +45,34 @@ kbd {
   background: grey;
   color: white;
 }
+.button{
+  font-family: '04b_19';
+  width: auto;
+  pointer-events: auto;
+  padding: 12px 6px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  font-size: 8vh;
+  opacity: 0.5;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  margin: 10px;
+  touch-action: manipulation;
+}
+.button:hover {
+  opacity: 1;
+}
+#flapButton {
+  text-align: center;
+  margin-left: 30vw;
+  margin-top: 30vh;
+  position: absolute;
+}
+#restartButton {
+  text-align: center;
+  margin-left: -40vw;
+  margin-top: 30vh;
+  position: absolute;
+}

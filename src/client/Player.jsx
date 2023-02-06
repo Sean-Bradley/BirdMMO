@@ -78,9 +78,10 @@ export default function Player({ colliders }) {
       <group ref={model} dispose={null} position={startPosition}>
         <Bird crashed={crashed} />
       </group>
-      <Overlay model={model} crashed={crashed} started={started} />
+      <Overlay model={model} crashed={crashed} started={started} keyMap={keyMap}/>     
     </>
   )
 }
 
 useGLTF.preload('./models/bird.glb')
+

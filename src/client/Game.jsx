@@ -1,15 +1,11 @@
 import { useFrame } from '@react-three/fiber'
-import { useRef, useMemo } from 'react'
+import { useRef } from 'react'
 import Player from './Player'
 import Pipes from './Pipes'
 import Scenery from './Scenery'
 
 export default function Game() {
-  //console.log('rendered game jsx')
-
-
   const ref = useRef()
-
   const colliders = {}
   // useMemo(() => {
   //   return {}
