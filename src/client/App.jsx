@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { Environment, OrbitControls, Stats } from '@react-three/drei'
+import { Environment, Stats } from '@react-three/drei'
 import Game from './Game'
 import { Suspense } from 'react'
 
