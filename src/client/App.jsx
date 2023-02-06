@@ -11,7 +11,6 @@ export default function App() {
           <Stats />
           <Environment files="./img/rustig_koppie_puresky_1k.hdr" background />
           <Game />
-          {/* <OrbitControls /> */}
         </Canvas>
       </Suspense>
     </>
@@ -19,5 +18,5 @@ export default function App() {
 }
 
 function Loading() {
-  return <img id="loader" src="./img/BirdMMO.png" />
+  return <img id="loader" src="./img/BirdMMO_400.png" />
 }

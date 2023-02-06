@@ -26,7 +26,7 @@ body,
   text-shadow: -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 4px 4px 0 #000;
   width: 4vw;
   margin-left: -2vw;
-  margin-top: -45vh;
+  margin-top: -40vh;
 }
 .prompt {
   font-family: '04b_19';
@@ -47,7 +47,7 @@ kbd {
   background: grey;
   color: white;
 }
-.button{
+.button {
   font-family: '04b_19';
   width: auto;
   pointer-events: auto;
