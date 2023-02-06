@@ -34,6 +34,8 @@ body,
   color: white;
   text-align: left;
   width: 50vw;
+  margin-left: -10vw;
+  margin-top: 10vh;
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 kbd {
