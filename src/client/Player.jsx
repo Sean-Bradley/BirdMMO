@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState, forwardRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import useKeyboard from './useKeyboard'
@@ -6,6 +6,22 @@ import { MathUtils, Vector3 } from 'three'
 import Bird from './Bird'
 import Overlay from './Overlay'
 import useSocketIO from './useSocketIO'
+
+const OtherBirds = forwardRef(function OtherBirds(_, ref) {
+  return (
+    <>
+      <group ref={ref[0]} position={[-260, -10, 0]}>
+        <Bird color="red" />
+      </group>
+      <group ref={ref[1]} position={[-260, -10, 0]}>
+        <Bird color="blue" />
+      </group>
+      <group ref={ref[2]} position={[-260, -10, 0]}>
+        <Bird color="yellow" />
+      </group>
+    </>
+  )
+})
 
 const GRAVITY = 50
 
@@ -18,9 +34,9 @@ export default function Player({ colliders }) {
   const startPosition = useMemo(() => new Vector3(-260, 1, 0), [])
   const [crashed, setCrashed] = useState()
   const [started, setStarted] = useState()
-  const otherPlayers = useRef({})
+  const otherBirds = [useRef(), useRef(), useRef()]
 
-  useSocketIO(model, otherPlayers)
+  useSocketIO(model, otherBirds)
 
   useFrame((state, delta) => {
     if (!crashed) {
@@ -78,10 +94,10 @@ export default function Player({ colliders }) {
       <group ref={model} dispose={null} position={startPosition}>
         <Bird crashed={crashed} />
       </group>
-      <Overlay model={model} crashed={crashed} started={started} keyMap={keyMap}/>     
+      <Overlay model={model} crashed={crashed} started={started} keyMap={keyMap} />
+      <OtherBirds ref={otherBirds} />
     </>
   )
 }
 
 useGLTF.preload('./models/bird.glb')
-

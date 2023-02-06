@@ -5,25 +5,25 @@ import Pipes from './Pipes'
 import Scenery from './Scenery'
 
 export default function Game() {
-  const ref = useRef()
+  const lightRef = useRef()
   const colliders = {}
   // useMemo(() => {
   //   return {}
   // }, [])
 
   useFrame((state) => {
-    ref.current.position.x = state.camera.position.x
-    ref.current.target.position.x = state.camera.position.x
-    ref.current.target.updateMatrixWorld()
+    lightRef.current.position.x = state.camera.position.x
+    lightRef.current.target.position.x = state.camera.position.x
+    lightRef.current.target.updateMatrixWorld()
   })
 
   return (
     <>
       <Scenery />
-      <Player colliders={colliders} />
       <Pipes colliders={colliders} />
+      <Player colliders={colliders} />
       <directionalLight
-        ref={ref}
+        ref={lightRef}
         position={[10, 10, 10]}
         castShadow
         shadow-mapSize-width={2048}
