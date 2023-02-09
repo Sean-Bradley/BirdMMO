@@ -55,7 +55,7 @@ kbd {
   border: 1px solid rgb(255, 255, 255);
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.1);
-  font-size: 8vh;
+  font-size: 10vh;
   opacity: 0.5;
   outline: none;
   cursor: pointer;
@@ -68,13 +68,13 @@ kbd {
 }
 #flapButton {
   text-align: center;
-  margin-left: 30vw;
-  margin-top: 30vh;
+  margin-left: 35vw;
+  margin-top: 20vh;
   position: absolute;
 }
 #restartButton {
   text-align: center;
-  margin-left: -40vw;
-  margin-top: 30vh;
+  margin-left: -48vw;
+  margin-top: 20vh;
   position: absolute;
 }
