@@ -30,6 +30,12 @@ export default function Overlay({ model, crashed, started, keyMap }) {
           <div className="prompt" style={{ display: started ? 'none' : 'block' }}>
             Press <kbd>Space</kbd> to Start
           </div>
+          {/* <input
+            value={'value'}
+            onChange={(e) => {
+              console.log(e)
+            }}
+          /> */}
         </Html>
       ) : isPortraight ? (
         <Html>

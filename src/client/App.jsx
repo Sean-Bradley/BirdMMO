@@ -9,7 +9,7 @@ export default function App() {
     <>
       <Suspense fallback={<Loading />}>
         <Canvas shadows dpr={dpr}>
-          <PerformanceMonitor onIncline={() => setDpr(1)} onDecline={() => setDpr(0.5)}>
+          <PerformanceMonitor onIncline={() => setDpr(1)} onDecline={() => setDpr(0.25)}>
             <Stats />
             <Environment files="./img/rustig_koppie_puresky_1k.hdr" background />
             <Game />
