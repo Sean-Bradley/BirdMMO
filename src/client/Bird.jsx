@@ -1,11 +1,10 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
 export default function Bird({ crashed = false, color = 'green' }) {
   const frame = [useRef(), useRef(), useRef()]
   const { nodes, materials } = useGLTF('./models/bird.glb')
-  const interval = useRef(0)
   const [frameCount, setFrameCount] = useState(0)
 
   let primary, secondary, tertiary
@@ -32,14 +31,13 @@ export default function Bird({ crashed = false, color = 'green' }) {
       break
   }
 
-  useFrame((_, delta) => {
-    if (!crashed) {
-      interval.current += delta
-      if (interval.current > 0.1) {
-        interval.current -= 0.1
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!crashed) {
         setFrameCount((frameCount + 1) % 4)
       }
-    }
+    }, 100)
+    return () => clearInterval(interval)
   })
 
   return (
